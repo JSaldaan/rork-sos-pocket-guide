@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "SOS Pocket guide",
-    "slug": "sos-pocket-guide",
+    "name": "EMS Pocket guide",
+    "slug": "ems-pocket-guide",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -15,14 +15,14 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "app.sos-pocket-guide"
+      "bundleIdentifier": "app.ems-pocket-guide"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "app.sos-pocket-guide"
+      "package": "app.ems-pocket-guide"
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
