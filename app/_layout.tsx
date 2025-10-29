@@ -43,6 +43,8 @@ function RootLayoutNav() {
       <Stack.Screen name="cpr" options={{ title: "CPR Timer" }} />
       <Stack.Screen name="websites" options={{ title: "Resources" }} />
       <Stack.Screen name="ai-assistant" options={{ title: "AI Assistant" }} />
+      <Stack.Screen name="admin-login" options={{ title: "Admin Login", headerShown: false }} />
+      <Stack.Screen name="admin-panel" options={{ title: "Admin Panel", headerShown: false }} />
     </Stack>
   );
 }

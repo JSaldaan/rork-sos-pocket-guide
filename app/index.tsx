@@ -17,6 +17,7 @@ import {
   Activity,
   Siren,
   Bot,
+  Settings,
 } from 'lucide-react-native';
 
 interface CategoryButton {
@@ -101,6 +102,14 @@ export default function HomeScreen() {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#2C5F8D" />
+      
+      <TouchableOpacity
+        style={styles.adminButton}
+        onPress={() => router.push('/admin-login' as any)}
+        activeOpacity={0.7}
+      >
+        <Settings size={20} color="#fff" />
+      </TouchableOpacity>
       
       <LinearGradient
         colors={['#2C5F8D', '#3A7BC8', '#4A90E2']}
@@ -297,5 +306,23 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     resizeMode: 'contain',
+  },
+
+  adminButton: {
+    position: 'absolute',
+    top: 40,
+    right: 16,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 100,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
 });
