@@ -255,120 +255,8 @@ export default function FilesScreen() {
     description?: string;
   }
 
-  const availableFiles: FileItem[] = [
-    {
-      id: 'cpg-main',
-      name: 'Clinical Practice Guidelines v2.4',
-      type: 'pdf',
-      size: '3.2 MB',
-      description: 'Complete HMCAS Clinical Practice Guidelines - Click to view full table of contents',
-      url: 'intro'
-    },
-    {
-      id: 'flowchart-guide',
-      name: 'Clinical Flowchart Guide',
-      type: 'pdf',
-      size: '2.1 MB',
-      description: 'Emergency medical protocol flowcharts and decision trees',
-      url: 'flowcharts'
-    },
-    {
-      id: 'pat-guide',
-      name: 'Pediatric Assessment & Treatment',
-      type: 'pdf',
-      size: '1.9 MB',
-      description: 'Comprehensive pediatric emergency protocols',
-      url: 'pat-assessment'
-    },
-    {
-      id: 'sop-manual',
-      name: 'Standard Operating Procedures',
-      type: 'pdf',
-      size: '3.2 MB',
-      description: 'Operational procedures and safety protocols',
-      url: 'sop-ops'
-    },
-    {
-      id: 'cpm-manual',
-      name: 'Clinical Procedure Manual',
-      type: 'pdf',
-      size: '4.1 MB',
-      description: 'Step-by-step clinical procedures',
-      url: 'cpm-airway'
-    },
-    {
-      id: 'drug-formulary',
-      name: 'Emergency Drug Formulary',
-      type: 'pdf',
-      size: '1.5 MB',
-      description: 'Complete medication reference with dosing',
-      url: 'formulary'
-    },
-    {
-      id: 'cardiac-protocols',
-      name: 'Cardiac Emergency Protocols',
-      type: 'pdf',
-      size: '0.8 MB',
-      description: 'ACS, cardiac arrest, and arrhythmia management',
-      url: 'cardiac'
-    },
-    {
-      id: 'trauma-protocols',
-      name: 'Trauma Management Protocols',
-      type: 'pdf',
-      size: '1.2 MB',
-      description: 'Major trauma assessment and management',
-      url: 'trauma'
-    },
-    {
-      id: 'respiratory-protocols',
-      name: 'Respiratory Emergency Protocols',
-      type: 'pdf',
-      size: '0.9 MB',
-      description: 'Asthma, COPD, and respiratory distress',
-      url: 'respiratory'
-    },
-    {
-      id: 'neuro-protocols',
-      name: 'Neurological Emergency Protocols',
-      type: 'pdf',
-      size: '1.1 MB',
-      description: 'Stroke, seizure, and altered mental status',
-      url: 'neuro'
-    },
-    {
-      id: 'obstetric-protocols',
-      name: 'Obstetric Emergency Protocols',
-      type: 'pdf',
-      size: '0.7 MB',
-      description: 'Delivery and pregnancy complications',
-      url: 'obstetric'
-    },
-    {
-      id: 'pediatric-protocols',
-      name: 'Pediatric Emergency Protocols',
-      type: 'pdf',
-      size: '1.3 MB',
-      description: 'Age-specific pediatric emergency care',
-      url: 'pat-emergency'
-    },
-    {
-      id: 'ecg-guide',
-      name: 'ECG Interpretation Guide',
-      type: 'pdf',
-      size: '0.6 MB',
-      description: 'Comprehensive ECG analysis and interpretation',
-      url: 'app-2'
-    },
-    {
-      id: 'reference-charts',
-      name: 'Quick Reference Charts',
-      type: 'pdf',
-      size: '0.4 MB',
-      description: 'Normal values, vital signs, and reference ranges',
-      url: 'app-1'
-    }
-  ];
+  const availableFiles: FileItem[] = [];
+
 
   const documentUrls: Partial<Record<DocumentTab, string>> = useMemo(() => ({
     CPG: '',
@@ -1095,86 +983,39 @@ export default function FilesScreen() {
       <View style={styles.attachedDocuments}>
         <Text style={styles.attachedTitle}>Available Documents & Files</Text>
         <Text style={styles.attachedSubtitle}>All HMCAS clinical documents and reference materials</Text>
-        {availableFiles.map((file) => (
-          <View key={file.id} style={styles.documentCard}>
-            <View style={styles.documentCardHeader}>
-              <FileText size={20} color="#3498DB" />
-              <View style={{ flex: 1 }}>
-                <Text style={styles.documentCardTitle}>{file.name}</Text>
-                {file.size && <Text style={styles.documentCardSize}>{file.size}</Text>}
+        {availableFiles.length === 0 ? (
+          <View style={{ paddingVertical: 16, alignItems: 'center' }}>
+            <FileText size={24} color="#999" />
+            <Text style={{ marginTop: 8, color: '#999' }}>No files available</Text>
+          </View>
+        ) : (
+          availableFiles.map((file) => (
+            <View key={file.id} style={styles.documentCard}>
+              <View style={styles.documentCardHeader}>
+                <FileText size={20} color="#3498DB" />
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.documentCardTitle}>{file.name}</Text>
+                  {file.size && <Text style={styles.documentCardSize}>{file.size}</Text>}
+                </View>
+              </View>
+              {file.description && (
+                <Text style={styles.documentCardDescription}>
+                  {file.description}
+                </Text>
+              )}
+              <View style={styles.documentCardActions}>
+                <TouchableOpacity 
+                  style={styles.documentCardButton} 
+                  onPress={() => {}}
+                  testID={`file-view-${file.id}`}
+                >
+                  <FileText size={16} color="#fff" />
+                  <Text style={styles.documentCardButtonText}>View in App</Text>
+                </TouchableOpacity>
               </View>
             </View>
-            {file.description && (
-              <Text style={styles.documentCardDescription}>
-                {file.description}
-              </Text>
-            )}
-            <View style={styles.documentCardActions}>
-              <TouchableOpacity 
-                style={styles.documentCardButton} 
-                onPress={() => {
-                  console.log('[Files] Opening document:', file.name, 'Section ID:', file.url);
-                  
-                  if (file.id === 'flowchart-guide') {
-                    router.push('/flowchart' as any);
-                    return;
-                  }
-                  
-                  // Find the section in the appropriate document
-                  let targetSection: DocumentSection | undefined;
-                  let targetTab: DocumentTab = 'CPG';
-                  
-                  if (file.url) {
-                    // Check CPG document
-                    const findSection = (sections: DocumentSection[], id: string): DocumentSection | undefined => {
-                      for (const section of sections) {
-                        if (section.id === id) return section;
-                        if (section.subsections) {
-                          const found = findSection(section.subsections, id);
-                          if (found) return found;
-                        }
-                      }
-                      return undefined;
-                    };
-                    
-                    targetSection = findSection(cpgDocument.sections, file.url);
-                    if (!targetSection) {
-                      targetSection = findSection(patDocument.sections, file.url);
-                      if (targetSection) targetTab = 'PAT';
-                    }
-                    if (!targetSection) {
-                      targetSection = findSection(sopDocument.sections, file.url);
-                      if (targetSection) targetTab = 'SOP';
-                    }
-                    if (!targetSection) {
-                      targetSection = findSection(cpmDocument.sections, file.url);
-                      if (targetSection) targetTab = 'CPM';
-                    }
-                  }
-                  
-                  if (targetSection) {
-                    setActiveTab(targetTab);
-                    openDocumentViewer(targetSection);
-                  } else {
-                    // Fallback: create a generic section
-                    const section: DocumentSection = {
-                      id: file.id,
-                      title: file.name,
-                      page: 1,
-                      content: file.description
-                    };
-                    setCurrentSection(section);
-                    setViewMode('viewer');
-                  }
-                }}
-                testID={`file-view-${file.id}`}
-              >
-                <FileText size={16} color="#fff" />
-                <Text style={styles.documentCardButtonText}>View in App</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        ))}
+          ))
+        )}
       </View>
 
       <View style={styles.keyHighlights}>
