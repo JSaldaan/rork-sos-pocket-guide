@@ -197,7 +197,7 @@ export const contentRouter = createTRPCRouter({
         category: input.category,
         uploadedAt: new Date().toISOString(),
       };
-      contentStore.documents.push(newDoc);
+      (contentStore.documents as Document[]).push(newDoc);
       return newDoc;
     }),
 
