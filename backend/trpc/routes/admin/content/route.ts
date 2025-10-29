@@ -1,8 +1,31 @@
 import { z } from "zod";
 import { publicProcedure, createTRPCRouter } from "@/backend/trpc/create-context";
 
+// Types
+type Document = {
+  id: string;
+  name: string;
+  url: string;
+  type: string;
+  size: number;
+  category?: string;
+  uploadedAt: string;
+};
+
+type Category = {
+  id: string;
+  title: string;
+  icon: string;
+  colors: string[];
+  route: string;
+  order: number;
+};
+
 // In-memory storage (replace with database in production)
-let contentStore = {
+let contentStore: {
+  categories: Category[];
+  documents: Document[];
+} = {
   categories: [
     {
       id: 'pediatric',
@@ -77,7 +100,7 @@ let contentStore = {
       order: 8,
     },
   ],
-  documents: [],
+  documents: [] as Document[],
 };
 
 export const contentRouter = createTRPCRouter({
@@ -165,9 +188,13 @@ export const contentRouter = createTRPCRouter({
       })
     )
     .mutation(({ input }) => {
-      const newDoc = {
+      const newDoc: Document = {
         id: Date.now().toString(),
-        ...input,
+        name: input.name,
+        url: input.url,
+        type: input.type,
+        size: input.size,
+        category: input.category,
         uploadedAt: new Date().toISOString(),
       };
       contentStore.documents.push(newDoc);
